@@ -78,13 +78,18 @@ systemctl daemon-reload && systemctl restart caddy.service && systemctl enable c
 
 curl -X POST -H "Content-Type: application/json" -d '{"password": "'$PW'"}' http://127.0.0.1:2019/trojan/users/add
 
-echo "Obtaining and Installing an SSL Certificate..." && sleep 10
-[ ! -d /caddy/certificates/ ] && sleep 60
+echo "Obtaining and Installing an SSL Certificate..." && sleep 5
+[ ! -d /caddy/certificates/ ] && sleep 10
+[ ! -d /caddy/certificates/ ] && sleep 10
+[ ! -d /caddy/certificates/ ] && sleep 10
+[ ! -d /caddy/certificates/ ] && sleep 10
+[ ! -d /caddy/certificates/ ] && sleep 10
+[ ! -d /caddy/certificates/ ] && sleep 10
 
 CHTTPS=$(curl -L https://$IP.nip.io)
 [ "$CHTTPS" != "Service Unavailable" ] && { echo "You have installed easytrojan 1.0,please enable TCP port 443"; exit 1; }
 CHTTP=$(curl -L http://$IP.nip.io)
 [ "$CHTTP" != "Service Unavailable" ] && { echo "You have installed easytrojan 1.0,please enable TCP port 80"; exit 1; }
 
-echo "You have successfully installed easytrojan 1.0"
-echo "Address: $IP.nip.io | Password: $PW"
+clear
+echo "You have successfully installed easytrojan 1.0" && echo "Address: $IP.nip.io | Port: 443 | Password: $PW | Alpn: h2,http/1.1"
