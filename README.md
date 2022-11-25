@@ -114,5 +114,5 @@ ALPN: h2/http1.1
 ---
 
 #### 鸣谢项目 ####
-[caddyserver](https://github.com/caddyserver/caddy) </br>
-[caddytrojan](https://github.com/imgk/caddy-trojan)
+[CaddyServer](https://github.com/caddyserver/caddy) </br>
+[CaddyTrojan](https://github.com/imgk/caddy-trojan)
