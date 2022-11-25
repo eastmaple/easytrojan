@@ -36,10 +36,10 @@ systemctl stop caddy.service && systemctl disable caddy.service && rm -rf /caddy
 
 必须放行服务器防火墙的TCP443与80端口，部分云服务商如在web管理页面有防火墙也应放开TCP443与80端口
 
-# RHEL 7、8、9 (CentOS、RedHat、AlmaLinux、RockyLinux)
+# RHEL 7、8、9 (CentOS、RedHat、AlmaLinux、RockyLinux) 放行端口命令
 firewall-cmd --permanent --add-port=443/tcp && firewall-cmd --permanent --add-port=80/tcp && firewall-cmd --reload
 
-# Debian 9、10、11、Ubuntu 16、18、20、22
+# Debian 9、10、11、Ubuntu 16、18、20、22 放行端口命令
 sudo ufw allow 443/tcp && sudo ufw allow 80/tcp
 ```
 
