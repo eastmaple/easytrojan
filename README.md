@@ -77,7 +77,7 @@ ALPN: h2/http1.1
 ---
 
 #### 赞助项目 ####
-- 如果真心想赞助这个项目，就帮忙点颗星吧
+- 如果真心想赞助这个项目，帮忙点颗星吧
 - 如果解决了封端口的问题，帮忙在各种Issues、论坛、电报群里，看到有相关提问时，转发一下项目链接吧
 
 让更多有需要的用户看到这个项目，就是最好的赞助...
@@ -106,3 +106,7 @@ ALPN: h2/http1.1
 >- 2022年黑色星期五，将该部署方案制作成脚本并发布
 
 ---
+
+#### 鸣谢项目 ####
+[caddyserver](https://github.com/caddyserver/caddy)
+[caddytrojan](https://github.com/imgk/caddy-trojan)
