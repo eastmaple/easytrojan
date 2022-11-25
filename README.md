@@ -4,7 +4,7 @@
 
 该项目会自动提供trojan服务所需的免费域名与证书，无需购买、解析等繁琐操作
 
-支持RHEL 7、8、9（CentOS、RedHat、AlmaLinux、RockyLinux）、Debian 9、10、11、Ubuntu 16、18、20、22
+支持RHEL 7、8、9 (CentOS、RedHat、AlmaLinux、RockyLinux)、Debian 9、10、11、Ubuntu 16、18、20、22
 
 技术原理不做解释，初衷只为解决个人用户与主机商家频繁被阻断IP的问题，毕竟大量IP被阻断会造成很多后续影响
 
@@ -35,6 +35,12 @@ systemctl stop caddy.service && systemctl disable caddy.service && rm -rf /caddy
 必须使用root用户部署
 
 必须放行服务器防火墙的TCP443与80端口，部分云服务商如在web管理页面有防火墙也应放开TCP443与80端口
+
+# RHEL 7、8、9 (CentOS、RedHat、AlmaLinux、RockyLinux)
+firewall-cmd --permanent --add-port=443/tcp && firewall-cmd --permanent --add-port=80/tcp && firewall-cmd --reload
+
+# Debian 9、10、11、Ubuntu 16、18、20、22
+sudo ufw allow 443/tcp && sudo ufw allow 80/tcp
 ```
 
 - 免费域名
@@ -108,5 +114,5 @@ ALPN: h2/http1.1
 ---
 
 #### 鸣谢项目 ####
-[caddyserver](https://github.com/caddyserver/caddy)
+[caddyserver](https://github.com/caddyserver/caddy) </br>
 [caddytrojan](https://github.com/imgk/caddy-trojan)
