@@ -4,7 +4,7 @@
 
 该项目会自动提供trojan服务所需的免费域名与证书，无需购买、解析等繁琐操作
 
-适用于RHEL 7、8、9（包括 CentOS、RedHat、AlmaLinux、RockyLinux）、Debian 9、10、11、Ubuntu 16、18、20、22
+支持RHEL 7、8、9（CentOS、RedHat、AlmaLinux、RockyLinux）、Debian 9、10、11、Ubuntu 16、18、20、22
 
 技术实现原理在此不做解释，初衷只为解决个人用户与主机商家频繁被阻断IP的问题，毕竟大量IP被阻断会造成很多后续影响
 
