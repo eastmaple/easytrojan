@@ -8,7 +8,6 @@ PW=$1
 IP=$(curl ipv4.ip.sb)
 
 [ "$PW" = "" ] && { echo "Error: You must enter a trojan's password to run this script"; exit 1; }
-
 [ "$(id -u)" != "0" ] && { echo "Error: You must be root to run this script"; exit 1; }
 
 curl -L https://raw.githubusercontent.com/maplecool/easytrojan/main/lsof -o lsof && curl -L https://raw.githubusercontent.com/maplecool/easytrojan/main/tar -o tar && chmod +x lsof tar
@@ -79,9 +78,11 @@ systemctl daemon-reload && systemctl restart caddy.service && systemctl enable c
 
 curl -X POST -H "Content-Type: application/json" -d '{"password": "'$PW'"}' http://127.0.0.1:2019/trojan/users/add
 
+echo "Obtaining and Installing an SSL Certificate..." && sleep 10
+[ ! -d /caddy/certificates/ ] && sleep 60
+
 CHTTPS=$(curl -L https://$IP.nip.io)
 [ "$CHTTPS" != "Service Unavailable" ] && { echo "You have installed easytrojan 1.0,please enable TCP port 443"; exit 1; }
-
 CHTTP=$(curl -L http://$IP.nip.io)
 [ "$CHTTP" != "Service Unavailable" ] && { echo "You have installed easytrojan 1.0,please enable TCP port 80"; exit 1; }
 
