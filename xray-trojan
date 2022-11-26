@@ -1,0 +1,27 @@
+    "outbounds": [
+        {
+            "protocol": "trojan",
+            "settings": {
+                "servers": [
+                    {
+                        "address": "连接trojan的域名或IP",
+                        "port": 443,
+                        "password": "连接trojan的密码"
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "tcp",
+                "security": "tls",
+                "tlsSettings": {
+                    "allowInsecure": false,
+                    "serverName": "连接trojan的域名",
+                    "fingerprint": "chrome",
+                    "alpn": "h2"
+                },
+                "sockopt": {
+                    "tcpcongestion": "bbr"
+                }
+            }
+        }
+    ]
