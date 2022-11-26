@@ -4,9 +4,9 @@
             "settings": {
                 "servers": [
                     {
-                        "address": "连接trojan的域名或IP",
+                        "address": "1.3.5.7",  #连接trojan的服务器IP或域名
                         "port": 443,
-                        "password": "连接trojan的密码"
+                        "password": "123456"   #连接trojan的密码
                     }
                 ]
             },
@@ -15,12 +15,9 @@
                 "security": "tls",
                 "tlsSettings": {
                     "allowInsecure": false,
-                    "serverName": "连接trojan的域名",
+                    "serverName": "1.3.5.7.nip.io",  #连接trojan的域名
                     "fingerprint": "chrome",
-                    "alpn": "h2"
-                },
-                "sockopt": {
-                    "tcpcongestion": "bbr"
+                    "alpn": "h2,http/1.1"
                 }
             }
         }
