@@ -18,7 +18,7 @@ curl https://raw.githubusercontent.com/maplecool/easytrojan/main/easytrojan.sh -
 
 #### 重新安装/重置密码 ####
 ```
-systemctl stop caddy.service && curl https://raw.githubusercontent.com/maplecool/easytrojan/main/easytrojan.sh -o easytrojan.sh && chmod +x easytrojan.sh && bash easytrojan.sh password
+systemctl stop caddy.service && rm -rf /caddy/trojan /etc/caddy && curl https://raw.githubusercontent.com/maplecool/easytrojan/main/easytrojan.sh -o easytrojan.sh && chmod +x easytrojan.sh && bash easytrojan.sh password
 ```
 
 #### 完全卸载 ####
