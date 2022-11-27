@@ -77,6 +77,70 @@ ALPN: h2/http1.1
 
 ---
 
+#### 连接方式 ####
+
+- 常见客户端连接示例
+
+>- Windows </br>
+> [配置示例](https://raw.githubusercontent.com/maplecool/easytrojan/client/v2rayn-trojan.png) | [V2rayN-Core](https://github.com/2dust/v2rayN/releases) 
+>- MacOS </br>
+> [配置示例](https://raw.githubusercontent.com/maplecool/easytrojan/client/v2rayu-trojan.png) | [V2rayU](https://github.com/yanue/V2rayU/releases) 
+>- Android </br>
+> [配置示例](https://raw.githubusercontent.com/maplecool/easytrojan/client/v2rayng-trojan.png) | [V2rayNG](https://github.com/2dust/v2rayNG/releases) 
+>- iOS </br>
+> [配置示例](https://raw.githubusercontent.com/maplecool/easytrojan/client/shadowrocket-trojan.png) | [Shadowrocket](https://apps.apple.com/us/app/shadowrocket/id932747118) | [AppStore海外代购](https://www.rocketgirls.space/product)
+
+- Xray连接trojan部分示例
+
+```
+{
+    ...
+
+    "outbounds": [
+        {
+            "protocol": "trojan",
+            "settings": {
+                "servers": [
+                    {
+                        "address": "1.3.5.7",        #连接trojan的服务器IP或域名
+                        "port": 443,
+                        "password": "123456"         #连接trojan的密码
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "tcp",
+                "security": "tls",
+                "tlsSettings": {
+                    "allowInsecure": false,
+                    "serverName": "1.3.5.7.nip.io",  #连接trojan的域名
+                    "fingerprint": "chrome",
+                    "alpn": "h2,http/1.1"
+                }
+            }
+        }
+    ]
+}
+```
+
+- Clash连接trojan部分示例
+```
+- name: "trojan"
+    type: trojan
+    server: 1.3.5.7
+    port: 443
+    password: 123456
+    udp: true
+    sni: 1.3.5.7.nip.io
+    alpn:
+      - h2
+      - http/1.1
+    skip-cert-verify: false
+
+```
+
+---
+
 #### 用户交流 ####
 [Telegram Group](https://t.me/easytrojan)
 
