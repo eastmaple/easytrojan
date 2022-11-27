@@ -17,7 +17,7 @@ curl https://raw.githubusercontent.com/maplecool/easytrojan/main/easytrojan.sh -
 ```
 
 #### 放行端口 ####
-如果服务器开启了防火墙，应放行TCP443与80端口，部分云服务商如在web管理页面有防火墙应同时方向TCP443与80端口
+如果服务器开启了防火墙，应放行TCP443与80端口，如在云厂商的web管理页面有防火墙应同时放行TCP443与80端口
 ```
 # RHEL 7、8、9 (CentOS、RedHat、AlmaLinux、RockyLinux) 放行端口命令
 firewall-cmd --permanent --add-port=443/tcp && firewall-cmd --permanent --add-port=80/tcp && firewall-cmd --reload
