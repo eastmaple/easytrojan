@@ -11,10 +11,25 @@
 ---
 
 #### 首次安装 ####
-请将结尾的password更换为自己的密码，例如 bash easytrojan.sh 123456
+请将结尾的password更换为自己的密码，例如 bash easytrojan.sh 123456，安装成功后会返回trojan的连接参数
 ```
 curl https://raw.githubusercontent.com/maplecool/easytrojan/main/easytrojan.sh -o easytrojan.sh && chmod +x easytrojan.sh && bash easytrojan.sh password
 ```
+
+#### 放行端口 ####
+如果服务器开启了防火墙，应放行TCP443与80端口，部分云服务商如在web管理页面有防火墙应同时方向TCP443与80端口
+```
+# RHEL 7、8、9 (CentOS、RedHat、AlmaLinux、RockyLinux) 放行端口命令
+firewall-cmd --permanent --add-port=443/tcp && firewall-cmd --permanent --add-port=80/tcp && firewall-cmd --reload
+
+# Debian 9、10、11、Ubuntu 16、18、20、22 放行端口命令
+sudo ufw allow 443/tcp && sudo ufw allow 80/tcp
+```
+> 验证端口是否放行 (示例IP应修改为trojan服务器的IP)
+>
+> 通过浏览器访问脚本提供的免费域名，例如1.3.5.7.nip.io </br>
+> 如果自动跳转至https，页面显示Service Unavailable，说明端口已放行
+
 
 #### 重新安装/重置密码 ####
 ```
@@ -34,13 +49,7 @@ systemctl stop caddy.service && systemctl disable caddy.service && rm -rf /caddy
 ```
 必须使用root用户部署
 
-必须放行服务器防火墙的TCP443与80端口，部分云服务商如在web管理页面有防火墙也应放开TCP443与80端口
-
-# RHEL 7、8、9 (CentOS、RedHat、AlmaLinux、RockyLinux) 放行端口命令
-firewall-cmd --permanent --add-port=443/tcp && firewall-cmd --permanent --add-port=80/tcp && firewall-cmd --reload
-
-# Debian 9、10、11、Ubuntu 16、18、20、22 放行端口命令
-sudo ufw allow 443/tcp && sudo ufw allow 80/tcp
+请勿修改端口及配置参数
 ```
 
 - 免费域名
@@ -69,18 +78,26 @@ IP为1.3.5.7 密码为123456的服务器示例：
 ALPN: h2/http1.1
 ```
 
-- WEB服务伪装
+- 服务伪装
 
 ```
-返回503状态进行伪装，如访问域名显示Service Unavailable则说明部署成功
+非密码正确的trojan客户端访问返回503状态，将trojan伪装成过载的Web服务
 ```
 
 ---
 
 #### 连接方式 ####
 
-- 常见客户端连接示例
+客户端的TLS指纹是导致trojan被封端口的重要原因之一，但问题不仅存在于客户端，服务端也应作出对应配置
 
+移动设备建议使用能够开启uTLS指纹功能的客户端，暂未有数据表明其它设备会因未启用uTLS指纹功能被封端口
+```
+为方便用户理解，配置示例中使用服务器IP:1.3.5.7、密码:123456，实际应修改为trojan服务器真实的连接参数
+
+客户端不只局限于以下几种，仅需支持trojan连接即可
+```
+
+- 常见客户端连接trojan示例
 >- Windows </br>
 > [配置示例](https://raw.githubusercontent.com/maplecool/easytrojan/client/v2rayn-trojan.png) | [V2rayN-Core](https://github.com/2dust/v2rayN/releases) 
 >- MacOS </br>
@@ -91,7 +108,6 @@ ALPN: h2/http1.1
 > [配置示例](https://raw.githubusercontent.com/maplecool/easytrojan/client/shadowrocket-trojan.png) | [Shadowrocket](https://apps.apple.com/us/app/shadowrocket/id932747118) | [AppStore海外代购](https://www.rocketgirls.space/product)
 
 - Xray连接trojan部分示例
-
 ```
 {
     ...
@@ -136,7 +152,6 @@ ALPN: h2/http1.1
       - h2
       - http/1.1
     skip-cert-verify: false
-
 ```
 
 ---
