@@ -59,6 +59,16 @@ systemctl stop caddy.service && systemctl disable caddy.service && rm -rf /caddy
 例如你的服务器IP为1.3.5.7，对应的域名则是1.3.5.7.nip.io
 ```
 
+- 指定域名
+
+仅建议在免费域名被阻断时使用
+```
+在密码后加入域名即可指定域名重新安装，密码与域名之间应使用空格分隔，执行命令如下：
+systemctl stop caddy.service && rm -rf /caddy/trojan /etc/caddy && curl https://raw.githubusercontent.com/maplecool/easytrojan/main/easytrojan.sh -o easytrojan.sh && chmod +x easytrojan.sh && bash easytrojan.sh password yourdomain
+
+*当指定域名后，如需切换回免费域名，必须完全卸载脚本，重新执行首次安装命令
+```
+
 - 免费证书
 
 ```
@@ -70,7 +80,7 @@ curl: (35) error:14094438:SSL routines:ssl3_read_bytes:tlsv1 alert internal erro
 
 - 连接参数
 
-IP为1.3.5.7 密码为123456的服务器示例：
+IP为1.3.5.7 密码为123456的服务器示例
 ```
 地址：1.3.5.7.nip.io  #根据服务器IP生成（即免费域名）
 端口：443
@@ -188,6 +198,7 @@ ALPN: h2/http1.1
 >- 2022年10月末，新购1台封端口重灾区的服务器，并联系了10位使用trojan被封端口的用户，内测新的部署方案
 >- 2022年11月初，样本服务器中，12台443端口正常，1台被封443端口，原因是客户端跳过了证书验证，更正后恢复正常
 >- 2022年11月中，总计13台样本服务器，443端口全部正常，期间有围观用户进行了部署，暂未收到端口被封的反馈
+>- 2022年11月末，已有超过100台服务器使用该项目，暂未收到任何端口被封的反馈
 >- 2022年黑色星期五，将该部署方案制作成脚本并发布
 
 ---
