@@ -209,17 +209,17 @@ net.ipv4.conf.all.route_localnet = 1
 net.ipv4.ip_forward = 1
 net.ipv4.conf.all.forwarding = 1
 net.ipv4.conf.default.forwarding = 1
-net.core.default_qdisc = fq
-net.ipv4.tcp_congestion_control = bbr
 EOF
 
 VERA=`uname -r | awk -F . '{print $1}'`
 VERB=`uname -r | awk -F . '{print $2}'`
-if [ "$VERA" -ge 4 ] && [ "$VERB" -ge 9 ]; then
-  sysctl -p
+[ "$VERA" -ge 5 ] && echo "net.core.default_qdisc = fq" >>/etc/sysctl.conf && echo "net.ipv4.tcp_congestion_control = bbr" >>/etc/sysctl.conf
+if [ "$VERA" -eq 4 ] && [ "$VERB" -ge 9 ]; then
+  echo "net.core.default_qdisc = fq" >>/etc/sysctl.conf && echo "net.ipv4.tcp_congestion_control = bbr" >>/etc/sysctl.conf && sysctl -p
 else
-  sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf && sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf && sysctl -p
+  sysctl -p
 fi
 
 clear
+
 echo "You have successfully installed easytrojan 1.1" && echo "Address: $NIP | Port: 443 | Password: $PW | Alpn: h2,http/1.1"
