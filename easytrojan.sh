@@ -215,7 +215,7 @@ EOF
 
 VERA=`uname -r | awk -F . '{print $1}'`
 VERB=`uname -r | awk -F . '{print $2}'`
-if [ "$VERA" -eq 4 ] && [ "$VERB" -ge 9 ]; then
+if [ "$VERA" -ge 4 ] && [ "$VERB" -ge 9 ]; then
   sysctl -p
 else
   sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf && sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf && sysctl -p
