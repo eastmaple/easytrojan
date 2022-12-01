@@ -72,7 +72,7 @@ systemctl stop caddy.service && rm -rf /caddy/trojan /etc/caddy && curl https://
 - 免费证书
 
 ```
-通过Carry的HTTPS模块实现，会自动申请letsencrypt或zerossl的免费证书
+通过Caddy的HTTPS模块实现，会自动申请letsencrypt或zerossl的免费证书
 
 curl: (35) error:14094438:SSL routines:ssl3_read_bytes:tlsv1 alert internal error
 如果在执行脚本的过程中出现该错误，则说明证书申请失败，应检测服务器的网络环境或稍后重新执行脚本
