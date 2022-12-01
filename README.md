@@ -78,8 +78,10 @@ curl: (35) error:14094438:SSL routines:ssl3_read_bytes:tlsv1 alert internal erro
 如果在执行脚本的过程中出现该错误，则说明证书申请失败，应检测服务器的网络环境或稍后重新执行脚本
 
 *关闭防火墙后执行重新安装命令，能大概率解决该错误，如果你不知道如何关闭防火墙，请尝试以下命令：
+
 # RHEL 7、8、9 (CentOS、RedHat、AlmaLinux、RockyLinux)
 systemctl stop firewalld.service && systemctl disable firewalld.service
+
 # Debian 9、10、11、Ubuntu 16、18、20、22
 sudo ufw disable
 ```
