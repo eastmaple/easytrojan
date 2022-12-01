@@ -91,9 +91,9 @@ echo "Obtaining and Installing an SSL Certificate..." && sleep 5
 [ ! -d /caddy/certificates/ ] && sleep 10
 
 CHTTPS=$(curl -L https://$NIP)
-[ "$CHTTPS" != "Service Unavailable" ] && { echo "You have installed easytrojan 1.0,please enable TCP port 443"; exit 1; }
+[ "$CHTTPS" != "Service Unavailable" ] && { echo "You have installed easytrojan 1.1,please enable TCP port 443"; exit 1; }
 CHTTP=$(curl -L http://$NIP)
-[ "$CHTTP" != "Service Unavailable" ] && { echo "You have installed easytrojan 1.0,please enable TCP port 80"; exit 1; }
+[ "$CHTTP" != "Service Unavailable" ] && { echo "You have installed easytrojan 1.1,please enable TCP port 80"; exit 1; }
 
 sed -i '/^# End of file/,$d' /etc/security/limits.conf
 sed -i '/nofile/d' /etc/security/limits.conf
