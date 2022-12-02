@@ -20,10 +20,10 @@ curl https://raw.githubusercontent.com/maplecool/easytrojan/main/easytrojan.sh -
 如果服务器开启了防火墙，应放行TCP443与80端口，如在云厂商的web管理页面有防火墙应同时放行TCP443与80端口
 ```
 # RHEL 7、8、9 (CentOS、RedHat、AlmaLinux、RockyLinux) 放行端口命令
-firewall-cmd --permanent --add-port=443/tcp && firewall-cmd --permanent --add-port=80/tcp && firewall-cmd --reload
+firewall-cmd --permanent --add-port=443/tcp && firewall-cmd --permanent --add-port=80/tcp && firewall-cmd --reload && iptables -F
 
 # Debian 9、10、11、Ubuntu 16、18、20、22 放行端口命令
-sudo ufw allow 443/tcp && sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp && sudo ufw allow 80/tcp && sudo iptables -F
 ```
 > 验证端口是否放行 (示例IP应修改为trojan服务器的IP)
 >
