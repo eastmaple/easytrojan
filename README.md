@@ -38,7 +38,7 @@ systemctl stop caddy.service && rm -rf /caddy/trojan /etc/caddy && curl https://
 
 #### 完全卸载 ####
 ```
-systemctl stop caddy.service && systemctl disable caddy.service && rm -rf /caddy /etc/caddy /usr/local/bin/caddy
+systemctl stop caddy.service && systemctl disable caddy.service && rm -rf /caddy /etc/caddy /usr/local/bin/caddy /etc/systemd/system/caddy.service
 ```
 
 ---
