@@ -213,6 +213,8 @@ ALPN: h2/http1.1
 >- 2022年11月末，已有超过100台服务器使用该项目部署，暂未收到用户服务器端口被封的反馈
 >- 2022年黑色星期五，将该部署方案制作成脚本并发布
 
+[![Stargazers over time](https://starchart.cc/maplecool/easytrojan.svg)](https://starchart.cc/maplecool/easytrojan)
+
 ---
 
 #### 鸣谢项目 ####
