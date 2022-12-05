@@ -21,6 +21,8 @@
 >- iOS </br>
 > [配置示例](https://raw.githubusercontent.com/maplecool/easytrojan/client/shadowrocket-trojan.png) | [Shadowrocket](https://apps.apple.com/us/app/shadowrocket/id932747118) | [AppStore海外代购](https://www.rocketgirls.space/product)
 
+- OpenWRT passwall [配置示例](https://raw.githubusercontent.com/maplecool/easytrojan/client/passwall-trojan.png)
+
 - Xray连接trojan部分示例
 ```
 {
