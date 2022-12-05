@@ -2,15 +2,15 @@
 ![release](https://img.shields.io/badge/release-v1.1_20221201-blue.svg)
 # EasyTrojan #
 
-世界上最简单的Trojan部署脚本，仅需一行命令即可搭建一台代理服务器
+#### 世界上最简单的Trojan部署脚本，仅需一行命令即可搭建一台代理服务器 ####
 
-该项目会自动提供trojan服务所需的免费域名与证书，无需购买、解析等繁琐操作
+- 该项目会自动提供trojan服务所需的免费域名与证书，无需购买、解析等繁琐操作
 
-支持RHEL 7、8、9 (CentOS、RedHat、AlmaLinux、RockyLinux)、Debian 9、10、11、Ubuntu 16、18、20、22
+- 支持RHEL 7、8、9 (CentOS、RedHat、AlmaLinux、RockyLinux)、Debian 9、10、11、Ubuntu 16、18、20、22
 
-技术原理不做解释，初衷只为解决个人用户与主机商家频繁被阻断IP的问题，毕竟大量IP被阻断会造成很多后续影响
+- 技术原理不做解释，初衷只为解决个人用户与主机商家被阻断连接的问题，降低大量IP被阻断造成的各种后续影响
 
-该项目仅限研究用途，用户应根据所在管辖区的当地法律评估自己的法规遵从义务
+- 该项目仅限研究用途，用户应根据所在管辖区的当地法律评估自己的法规遵从义务
 
 ---
 
@@ -215,7 +215,7 @@ ALPN: h2/http1.1
 >- 2022年11月中，总计13台样本服务器，443端口全部正常，期间有围观用户尝试部署，未收到端口被封反馈
 >- 2022年11月末，少量用户在移动设备使用clash客户端连接trojan被封端口，更换为该项目建议的客户端后均稳定运行
 >- 2022年11月末，已有超过100台服务器使用该项目部署，暂未收到用户服务器端口被封的反馈
->- 2022年黑色星期五，将该部署方案制作成脚本并发布
+>- 2022年黑色星期五，将该部署方案制作成脚本并发布，并在10天后登上Github Trending总榜
 
 [![Stargazers over time](https://starchart.cc/maplecool/easytrojan.svg)](https://starchart.cc/maplecool/easytrojan)
 
