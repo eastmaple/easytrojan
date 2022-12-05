@@ -177,7 +177,7 @@ ALPN: h2/http1.1
       - http/1.1
     skip-cert-verify: false
 ```
-> 警告：请勿在移动设备及其它ARM设备上使用Clash及不包含UTLS指纹功能的客户端连接trojan
+> 警告：请勿在移动设备及其它除Mac外的ARM设备上使用Clash及不包含UTLS指纹功能的客户端连接trojan
 
 ---
 
