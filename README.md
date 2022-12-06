@@ -1,5 +1,5 @@
 ![language](https://img.shields.io/badge/language-Shell_&_Go-brightgreen.svg)
-![release](https://img.shields.io/badge/release-v1.1_20221201-blue.svg)
+![release](https://img.shields.io/badge/release-v2.0_20221206-blue.svg)
 # EasyTrojan #
 
 #### 世界上最简单的Trojan部署脚本，仅需一行命令即可搭建一台代理服务器 ####
@@ -34,15 +34,39 @@ sudo ufw allow 443/tcp && sudo ufw allow 80/tcp && sudo iptables -F
 > 通过浏览器访问脚本提供的免费域名，例如1.3.5.7.nip.io </br>
 > 如果自动跳转至https，页面显示Service Unavailable，说明端口已放行
 
-
-#### 重新安装/重置密码 ####
+#### 密码管理 ####
+请将结尾的password更换为自己的密码，仅限字母、数字、下划线
 ```
-systemctl stop caddy.service && rm -rf /caddy/trojan /etc/caddy && curl https://raw.githubusercontent.com/maplecool/easytrojan/main/easytrojan.sh -o easytrojan.sh && chmod +x easytrojan.sh && bash easytrojan.sh password
+# 下载trojan密码管理脚本
+curl https://raw.githubusercontent.com/maplecool/easytrojan/main/mytrojan.sh -o mytrojan.sh && chmod +x mytrojan.sh
+
+# 创建密码
+bash mytrojan.sh add password
+
+# 一次创建多个密码示例
+bash mytrojan.sh add password1 password2 ...
+
+# 删除密码
+bash mytrojan.sh del password
+
+# 一次删除多个密码示例
+bash mytrojan.sh del password1 password2 ...
+
+# 流量查询
+bash mytrojan.sh status password1 password2 ...
+
+# 密码列表
+bash mytrojan.sh list
+```
+
+#### 重新安装 ####
+```
+systemctl stop caddy.service && curl https://raw.githubusercontent.com/maplecool/easytrojan/main/easytrojan.sh -o easytrojan.sh && chmod +x easytrojan.sh && bash easytrojan.sh password
 ```
 
 #### 完全卸载 ####
 ```
-systemctl stop caddy.service && systemctl disable caddy.service && rm -rf /caddy /etc/caddy /usr/local/bin/caddy /etc/systemd/system/caddy.service
+systemctl stop caddy.service && systemctl disable caddy.service && rm -rf /etc/caddy /usr/local/bin/caddy /etc/systemd/system/caddy.service
 ```
 
 ---
@@ -53,7 +77,7 @@ systemctl stop caddy.service && systemctl disable caddy.service && rm -rf /caddy
 ```
 必须使用root用户部署
 
-请勿修改端口及配置参数
+请勿修改配置文件参数
 ```
 
 - 免费域名
@@ -68,9 +92,20 @@ systemctl stop caddy.service && systemctl disable caddy.service && rm -rf /caddy
 仅建议在免费域名被阻断时使用
 ```
 在密码后加入域名即可指定域名重新安装，密码与域名之间应使用空格分隔，执行命令如下：
-systemctl stop caddy.service && rm -rf /caddy/trojan /etc/caddy && curl https://raw.githubusercontent.com/maplecool/easytrojan/main/easytrojan.sh -o easytrojan.sh && chmod +x easytrojan.sh && bash easytrojan.sh password yourdomain
+systemctl stop caddy.service && curl https://raw.githubusercontent.com/maplecool/easytrojan/main/easytrojan.sh -o easytrojan.sh && chmod +x easytrojan.sh && bash easytrojan.sh password yourdomain
 
 *当指定域名后，如需切换回免费域名，必须完全卸载脚本，重新执行首次安装命令
+```
+
+- 更换端口
+
+仅建议在443端口被阻断时临时使用
+```
+# 将443端口更换为8443端口示例
+sed -i "s/443/8443/g" /etc/caddy/Caddyfile && systemctl restart caddy.service
+
+*更换端口后应开启对应端口的防火墙
+*当测试临时端口超过48小时未阻断后，应尽快更换IP并重新安装，使用默认的443端口
 ```
 
 - 免费证书
@@ -78,10 +113,7 @@ systemctl stop caddy.service && rm -rf /caddy/trojan /etc/caddy && curl https://
 ```
 通过Caddy的HTTPS模块实现，会自动申请letsencrypt或zerossl的免费证书
 
-curl: (35) error:14094438:SSL routines:ssl3_read_bytes:tlsv1 alert internal error
-如果在执行脚本的过程中出现该错误，则说明证书申请失败，应检测服务器的网络环境或稍后重新执行脚本
-
-*关闭防火墙后执行重新安装命令，能大概率解决该错误，如果你不知道如何关闭防火墙，请尝试以下命令：
+*关闭防火墙后执行重新安装命令，能大概率解决证书申请失败的问题
 
 # RHEL 7、8、9 (CentOS、RedHat、AlmaLinux、RockyLinux)
 systemctl stop firewalld.service && systemctl disable firewalld.service
