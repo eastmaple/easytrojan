@@ -5,6 +5,8 @@
 # Project home page:
 #        https://github.com/maplecool/easytrojan
 
+[ "$(id -u)" != "0" ] && { echo "Error: You must be root to run this script"; exit 1; }
+
 case $1 in
 add)
 shift
