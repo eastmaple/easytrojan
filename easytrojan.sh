@@ -3,61 +3,97 @@
 # Notes: EasyTrojan for CentOS/RedHat 7+ Debian 9+ and Ubuntu 16+
 #
 # Project home page:
-#       https://github.com/maplecool/easytrojan
+#        https://github.com/maplecool/easytrojan
 
-PW=$1
-DN=$2
-IP=$(curl ipv4.ip.sb)
-NIP=${IP}.nip.io
+trojan_passwd=$1
+caddy_domain=$2
+address_ip=$(curl ipv4.ip.sb)
+nip_domain=${address_ip}.nip.io
+check_port=$(ss -Hlnp sport = :80 or sport = :443)
 
-[ "$PW" = "" ] && { echo "Error: You must enter a trojan's password to run this script"; exit 1; }
-[ "$DN" != "" ] && DNIP=`ping ${DN} -c 1 | sed '1{s/[^(]*(//;s/).*//;q}'` && [ "$DNIP" != "$IP" ] && { echo "Error: The target hostname could not be resolved"; exit 1; }
+[ "$trojan_passwd" = "" ] && { echo "Error: You must enter a trojan's password to run this script"; exit 1; }
+[ "$caddy_domain" != "" ] && domain_ip=`ping ${caddy_domain} -c 1 | sed '1{s/[^(]*(//;s/).*//;q}'` && [ "$domain_ip" != "$address_ip" ] && { echo "Error: Could not resolve hostname"; exit 1; }
 [ "$(id -u)" != "0" ] && { echo "Error: You must be root to run this script"; exit 1; }
+[ "$check_port" != "" ] && { echo "Error: Port 80 or 443 is already in use"; exit 1; }
 
-curl -L https://raw.githubusercontent.com/maplecool/easytrojan/main/lsof -o lsof && curl -L https://raw.githubusercontent.com/maplecool/easytrojan/main/tar -o tar && chmod +x lsof tar
+check_cmd () { command -v "$1" &>/dev/null; }
 
-pIDa=`./lsof -i :80,443|grep -v "PID" | awk '{print $2}'`
-[ "$pIDa" != "" ] && { echo "Error: Port 80 or 443 is already in use"; exit 1; }
+if ! check_cmd tar; then
+    echo "tar: command not found, installing..."
+    if check_cmd yum; then
+        yum install -y tar
+    elif check_cmd apt-get; then
+        apt-get install -y tar
+    elif check_cmd dnf; then
+        dnf install -y tar
+    else
+        echo "Error: Unable to install tar"; exit 1
+    fi
+fi
 
-curl -L https://raw.githubusercontent.com/maplecool/easytrojan/main/caddy_2.6.2_linux_amd64_trojan.tar.gz -o caddy_2.6.2_linux_amd64_trojan.tar.gz && ./tar zxf caddy_2.6.2_linux_amd64_trojan.tar.gz -C /usr/local/bin 
+case $(uname -m) in
+    x86_64)
+        caddy_url=https://github.com/caddyserver/caddy/releases/download/v2.6.2/caddy_2.6.2_linux_amd64.tar.gz
+        ;;
+    aarch64)
+        caddy_url=https://github.com/caddyserver/caddy/releases/download/v2.6.2/caddy_2.6.2_linux_arm64.tar.gz
+        ;;
+    *) 
+        echo "Error: Your system version does not support"
+        exit 1
+        ;;
+esac
 
-mkdir -p /etc/caddy && mkdir -p /caddy/trojan && rm -rf /caddy/trojan/* caddy_2.6.2_linux_amd64_trojan.tar.gz lsof tar
+curl -L $caddy_url -o caddy_2.6.2_linux_amd64.tar.gz && tar zxf caddy_2.6.2_linux_amd64.tar.gz -C /usr/local/bin caddy
 
-[ "$DN" != "" ] && NIP=$DN && rm -rf /caddy/certificates
+/usr/local/bin/caddy add-package github.com/imgk/caddy-trojan@8d46fda7c33580ed047d557fc97b512a42ec398b
 
-echo '{
-    order trojan before file_server
+if ! id caddy &>/dev/null; then groupadd --system caddy; useradd --system -g caddy -s $(command -v nologin) caddy; fi
+
+mkdir -p /etc/caddy/trojan && chown -R caddy:caddy /etc/caddy && chmod 700 /etc/caddy && rm -rf caddy_2.6.2_linux_amd64.tar.gz
+
+[ "$caddy_domain" != "" ] && nip_domain=$caddy_domain && rm -rf /etc/caddy/certificates
+
+cat > /etc/caddy/Caddyfile <<EOF
+{
+    order trojan before respond
+    https_port 443
     servers :443 {
         listener_wrappers {
             trojan
         }
         protocols h2 h1
     }
+    servers :80 {
+        protocols h1
+    }
     trojan {
         caddy
         no_proxy
     }
 }
-
-:443, '$NIP' {
-    tls '$IP'@nip.io {
+:443, $nip_domain {
+    tls $address_ip@nip.io {
         protocols tls1.2 tls1.2
         ciphers TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256 TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256
     }
     log {
         level ERROR
     }
+    trojan {
+        websocket
+    }
     respond "Service Unavailable" 503 {
         close
     }
 }
-
 :80 {
     redir https://{host}{uri} permanent
 }
-'>/etc/caddy/Caddyfile
+EOF
 
-echo '[Unit]
+cat > /etc/systemd/system/caddy.service <<EOF
+[Unit]
 Description=Caddy
 Documentation=https://caddyserver.com/docs/
 After=network.target network-online.target
@@ -65,35 +101,37 @@ Requires=network-online.target
 
 [Service]
 Type=notify
+User=caddy
+Group=caddy
+Environment=XDG_CONFIG_HOME=/etc XDG_DATA_HOME=/etc
 ExecStart=/usr/local/bin/caddy run --environ --config /etc/caddy/Caddyfile
 ExecReload=/usr/local/bin/caddy reload --config /etc/caddy/Caddyfile --force
 TimeoutStopSec=5s
 LimitNOFILE=1048576
 LimitNPROC=512
 PrivateTmp=true
-ProtectSystem=full
 AmbientCapabilities=CAP_NET_BIND_SERVICE
 
 [Install]
 WantedBy=multi-user.target
-'>/etc/systemd/system/caddy.service
+EOF
 
 systemctl daemon-reload && systemctl restart caddy.service && systemctl enable caddy.service
 
-curl -X POST -H "Content-Type: application/json" -d '{"password": "'$PW'"}' http://127.0.0.1:2019/trojan/users/add
+curl -X POST -H "Content-Type: application/json" -d "{\"password\": \"$trojan_passwd\"}" http://127.0.0.1:2019/trojan/users/add
+echo "$trojan_passwd" >> /etc/caddy/trojan/passwd.txt && cat /etc/caddy/trojan/passwd.txt | sort | uniq > /etc/caddy/trojan/passwd.tmp && mv -f /etc/caddy/trojan/passwd.tmp /etc/caddy/trojan/passwd.txt
 
-echo "Obtaining and Installing an SSL Certificate..." && sleep 5
-[ ! -d /caddy/certificates/ ] && sleep 10
-[ ! -d /caddy/certificates/ ] && sleep 10
-[ ! -d /caddy/certificates/ ] && sleep 10
-[ ! -d /caddy/certificates/ ] && sleep 10
-[ ! -d /caddy/certificates/ ] && sleep 10
-[ ! -d /caddy/certificates/ ] && sleep 10
+echo "Obtaining and Installing an SSL Certificate..."
 
-CHTTPS=$(curl -L https://$NIP)
-[ "$CHTTPS" != "Service Unavailable" ] && { echo "You have installed easytrojan 1.1,please enable TCP port 443"; exit 1; }
-CHTTP=$(curl -L http://$NIP)
-[ "$CHTTP" != "Service Unavailable" ] && { echo "You have installed easytrojan 1.1,please enable TCP port 80"; exit 1; }
+count=0
+sslfail=0
+until [ -d /etc/caddy/certificates ]; do
+count=$((count + 1))
+sleep 3
+(( count > 20 )) && sslfail=1 && break
+done
+
+[ "$sslfail" = "1" ] && { echo "Certificate application failed, please check your server firewall and network settings"; exit 1; }
 
 sed -i '/^# End of file/,$d' /etc/security/limits.conf
 sed -i '/nofile/d' /etc/security/limits.conf
@@ -103,30 +141,30 @@ sed -i '/memlock/d' /etc/security/limits.conf
 
 cat >> /etc/security/limits.conf <<EOF
 # End of file
-*     soft   nofile    1000000
-*     hard   nofile    1000000
-*     soft   nproc     1000000
-*     hard   nproc     1000000
-*     soft   core      1000000
-*     hard   core      1000000
+*     soft   nofile    1048576
+*     hard   nofile    1048576
+*     soft   nproc     1048576
+*     hard   nproc     1048576
+*     soft   core      1048576
+*     hard   core      1048576
 *     hard   memlock   unlimited
 *     soft   memlock   unlimited
 
-root     soft   nofile    1000000
-root     hard   nofile    1000000
-root     soft   nproc     1000000
-root     hard   nproc     1000000
-root     soft   core      1000000
-root     hard   core      1000000
+root     soft   nofile    1048576
+root     hard   nofile    1048576
+root     soft   nproc     1048576
+root     hard   nproc     1048576
+root     soft   core      1048576
+root     hard   core      1048576
 root     hard   memlock   unlimited
 root     soft   memlock   unlimited
 EOF
 
 if grep -q "ulimit" /etc/profile; then
-  :
+    :
 else
-  sed -i '/ulimit -SHn/d' /etc/profile
-  echo "ulimit -SHn 1000000" >>/etc/profile
+    sed -i '/ulimit -SHn/d' /etc/profile
+    echo "ulimit -SHn 1048576" >>/etc/profile
 fi
 
 sed -i '/fs.file-max/d' /etc/sysctl.conf
@@ -172,7 +210,7 @@ sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf
 sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf
 
 cat >> /etc/sysctl.conf << EOF
-fs.file-max = 1000000
+fs.file-max = 1048576
 fs.inotify.max_user_instances = 8192
 net.core.somaxconn = 32768
 net.core.netdev_max_backlog = 32768
@@ -211,15 +249,17 @@ net.ipv4.conf.all.forwarding = 1
 net.ipv4.conf.default.forwarding = 1
 EOF
 
-VERA=`uname -r | awk -F . '{print $1}'`
-VERB=`uname -r | awk -F . '{print $2}'`
-[ "$VERA" -ge 5 ] && echo "net.core.default_qdisc = fq" >>/etc/sysctl.conf && echo "net.ipv4.tcp_congestion_control = bbr" >>/etc/sysctl.conf
-if [ "$VERA" -eq 4 ] && [ "$VERB" -ge 9 ]; then
-  echo "net.core.default_qdisc = fq" >>/etc/sysctl.conf && echo "net.ipv4.tcp_congestion_control = bbr" >>/etc/sysctl.conf && sysctl -p
-else
-  sysctl -p
+modprobe tcp_bbr &>/dev/null
+if grep -wq bbr /proc/sys/net/ipv4/tcp_available_congestion_control; then
+echo "net.core.default_qdisc = fq" >>/etc/sysctl.conf
+echo "net.ipv4.tcp_congestion_control = bbr" >>/etc/sysctl.conf
 fi
+
+sysctl -p
+
+check_http=$(curl -L http://$nip_domain)
+[ "$check_http" != "Service Unavailable" ] && { echo "You have installed EasyTrojan 2.0,please enable TCP port 80 and 443"; exit 1; }
 
 clear
 
-echo "You have successfully installed easytrojan 1.1" && echo "Address: $NIP | Port: 443 | Password: $PW | Alpn: h2,http/1.1"
+echo "You have successfully installed EasyTrojan 2.0" && echo "Address: $nip_domain | Port: 443 | Password: $trojan_passwd | Alpn: h2,http/1.1"
