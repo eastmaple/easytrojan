@@ -116,13 +116,13 @@ AmbientCapabilities=CAP_NET_BIND_SERVICE
 WantedBy=multi-user.target
 EOF
 
+ip link set lo up
 systemctl daemon-reload && systemctl restart caddy.service && systemctl enable caddy.service
 
 curl -X POST -H "Content-Type: application/json" -d "{\"password\": \"$trojan_passwd\"}" http://127.0.0.1:2019/trojan/users/add
 echo "$trojan_passwd" >> /etc/caddy/trojan/passwd.txt && cat /etc/caddy/trojan/passwd.txt | sort | uniq > /etc/caddy/trojan/passwd.tmp && mv -f /etc/caddy/trojan/passwd.tmp /etc/caddy/trojan/passwd.txt
 
 echo "Obtaining and Installing an SSL Certificate..."
-
 count=0
 sslfail=0
 until [ -d /etc/caddy/certificates ]; do
