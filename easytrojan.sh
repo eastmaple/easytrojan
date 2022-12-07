@@ -44,13 +44,14 @@ case $(uname -m) in
         ;;
 esac
 
-curl -L $caddy_url -o caddy_2.6.2_linux_amd64.tar.gz && tar zxf caddy_2.6.2_linux_amd64.tar.gz -C /usr/local/bin caddy
+curl -L $caddy_url -o caddy_2.6.2_linux.tar.gz && tar zxf caddy_2.6.2_linux.tar.gz -C /usr/local/bin caddy
 
 /usr/local/bin/caddy add-package github.com/imgk/caddy-trojan@8d46fda7c33580ed047d557fc97b512a42ec398b
+if ! caddy build-info 2>&1 | grep caddy-trojan; then echo "Error: Failed to add-package caddy-trojan"; exit 1; fi
 
 if ! id caddy &>/dev/null; then groupadd --system caddy; useradd --system -g caddy -s $(command -v nologin) caddy; fi
 
-mkdir -p /etc/caddy/trojan && chown -R caddy:caddy /etc/caddy && chmod 700 /etc/caddy && rm -rf caddy_2.6.2_linux_amd64.tar.gz
+mkdir -p /etc/caddy/trojan && chown -R caddy:caddy /etc/caddy && chmod 700 /etc/caddy && rm -rf caddy_2.6.2_linux.tar.gz
 
 [ "$caddy_domain" != "" ] && nip_domain=$caddy_domain && rm -rf /etc/caddy/certificates
 
@@ -134,10 +135,6 @@ done
 [ "$sslfail" = "1" ] && { echo "Certificate application failed, please check your server firewall and network settings"; exit 1; }
 
 sed -i '/^# End of file/,$d' /etc/security/limits.conf
-sed -i '/nofile/d' /etc/security/limits.conf
-sed -i '/nproc/d' /etc/security/limits.conf
-sed -i '/core/d' /etc/security/limits.conf
-sed -i '/memlock/d' /etc/security/limits.conf
 
 cat >> /etc/security/limits.conf <<EOF
 # End of file
@@ -159,13 +156,6 @@ root     hard   core      1048576
 root     hard   memlock   unlimited
 root     soft   memlock   unlimited
 EOF
-
-if grep -q "ulimit" /etc/profile; then
-    :
-else
-    sed -i '/ulimit -SHn/d' /etc/profile
-    echo "ulimit -SHn 1048576" >>/etc/profile
-fi
 
 sed -i '/fs.file-max/d' /etc/sysctl.conf
 sed -i '/fs.inotify.max_user_instances/d' /etc/sysctl.conf
