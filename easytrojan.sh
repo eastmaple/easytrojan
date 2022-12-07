@@ -116,7 +116,7 @@ AmbientCapabilities=CAP_NET_BIND_SERVICE
 WantedBy=multi-user.target
 EOF
 
-ip link set lo up
+if ip link show lo | grep -q DOWN; then ip link set lo up; fi
 systemctl daemon-reload && systemctl restart caddy.service && systemctl enable caddy.service
 
 curl -X POST -H "Content-Type: application/json" -d "{\"password\": \"$trojan_passwd\"}" http://127.0.0.1:2019/trojan/users/add
