@@ -1,5 +1,5 @@
 ![language](https://img.shields.io/badge/language-Shell_&_Go-brightgreen.svg)
-![release](https://img.shields.io/badge/release-v2.0_20221206-blue.svg)
+![release](https://img.shields.io/badge/release-v2.0_20221208-blue.svg)
 # EasyTrojan #
 
 #### 世界上最简单的Trojan部署脚本，仅需一行命令即可搭建一台代理服务器 ####
