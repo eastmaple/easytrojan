@@ -12,7 +12,7 @@ nip_domain=${address_ip}.nip.io
 check_port=$(ss -Hlnp sport = :80 or sport = :443)
 
 [ "$trojan_passwd" = "" ] && { echo "Error: You must enter a trojan's password to run this script"; exit 1; }
-[ "$caddy_domain" != "" ] && domain_ip=`ping ${caddy_domain} -c 1 | sed '1{s/[^(]*(//;s/).*//;q}'` && [ "$domain_ip" != "$address_ip" ] && { echo "Error: Could not resolve hostname"; exit 1; }
+[ "$caddy_domain" != "" ] && domain_ip=$(ping "${caddy_domain}" -c 1 | sed '1{s/[^(]*(//;s/).*//;q}') && [ "$domain_ip" != "$address_ip" ] && { echo "Error: Could not resolve hostname"; exit 1; }
 [ "$(id -u)" != "0" ] && { echo "Error: You must be root to run this script"; exit 1; }
 [ "$check_port" != "" ] && { echo "Error: Port 80 or 443 is already in use"; exit 1; }
 
@@ -49,7 +49,7 @@ curl -L $caddy_url | tar -zx -C /usr/local/bin caddy
 /usr/local/bin/caddy add-package github.com/imgk/caddy-trojan@8d46fda7c33580ed047d557fc97b512a42ec398b
 if ! /usr/local/bin/caddy build-info 2>&1 | grep caddy-trojan; then echo "Error: Failed to add-package caddy-trojan"; exit 1; fi
 
-if ! id caddy &>/dev/null; then groupadd --system caddy; useradd --system -g caddy -s $(command -v nologin) caddy; fi
+if ! id caddy &>/dev/null; then groupadd --system caddy; useradd --system -g caddy -s "$(command -v nologin)" caddy; fi
 
 mkdir -p /etc/caddy/trojan && chown -R caddy:caddy /etc/caddy && chmod 700 /etc/caddy
 
@@ -121,7 +121,7 @@ if ip link show lo | grep -q DOWN; then ip link set lo up; fi
 systemctl daemon-reload && systemctl restart caddy.service && systemctl enable caddy.service
 
 curl -X POST -H "Content-Type: application/json" -d "{\"password\": \"$trojan_passwd\"}" http://127.0.0.1:2019/trojan/users/add
-echo "$trojan_passwd" >> /etc/caddy/trojan/passwd.txt && cat /etc/caddy/trojan/passwd.txt | sort | uniq > /etc/caddy/trojan/passwd.tmp && mv -f /etc/caddy/trojan/passwd.tmp /etc/caddy/trojan/passwd.txt
+echo "$trojan_passwd" >> /etc/caddy/trojan/passwd.txt && sort /etc/caddy/trojan/passwd.txt | uniq > /etc/caddy/trojan/passwd.tmp && mv -f /etc/caddy/trojan/passwd.tmp /etc/caddy/trojan/passwd.txt
 
 echo "Obtaining and Installing an SSL Certificate..."
 count=0
@@ -247,7 +247,7 @@ fi
 
 sysctl -p
 
-check_http=$(curl -L http://$nip_domain)
+check_http=$(curl -L http://"$nip_domain")
 [ "$check_http" != "Service Unavailable" ] && { echo "You have installed EasyTrojan 2.0,please enable TCP port 80 and 443"; exit 1; }
 
 clear
