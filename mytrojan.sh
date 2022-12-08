@@ -13,7 +13,7 @@ shift
     for i in "$@" ; do
         if curl -X POST -H "Content-Type: application/json" -d "{\"password\": \"$i\"}" http://127.0.0.1:2019/trojan/users/add ; then
             echo "$i" >> /etc/caddy/trojan/passwd.txt &&
-            cat /etc/caddy/trojan/passwd.txt | sort | uniq > /etc/caddy/trojan/passwd.tmp &&
+            sort /etc/caddy/trojan/passwd.txt | uniq > /etc/caddy/trojan/passwd.tmp &&
             mv -f /etc/caddy/trojan/passwd.tmp /etc/caddy/trojan/passwd.txt &&
             echo "Add Succeeded"
         else
@@ -39,7 +39,7 @@ status)
     shift
     for i in "$@" ; do
         hash=$(echo -n "$i" | sha224sum | cut -d ' ' -f1)
-        echo "$i data usage: $(cat /etc/caddy/trojan/$hash)"
+        echo "$i data usage: $(cat /etc/caddy/trojan/"$hash")"
     done
 ;;
 *)
