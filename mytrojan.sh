@@ -32,21 +32,32 @@ shift
         fi
     done
 ;;
-list)
-    cat /etc/caddy/trojan/passwd.txt
-;;
 status)
-    shift
+shift
     for i in "$@" ; do
         hash=$(echo -n "$i" | sha224sum | cut -d ' ' -f1)
         echo "$i data usage: $(cat /etc/caddy/trojan/"$hash")"
     done
 ;;
+rotate)
+    mkdate=$(date +%Y%m%d-%H%M%S)
+    cpdate=$(find /etc/caddy/trojan -maxdepth 1 -type f -not -path "*passwd.txt*")
+    mkdir -p /etc/caddy/trojan/data/"$mkdate"
+    for alldate in $cpdate; do
+        cp -f "$alldate" /etc/caddy/trojan/data/"$mkdate" &&
+        sed -i -r -e "s|[0-9]+|0|g" "$alldate"
+    done
+    echo "Clear all data usage successful"
+;;
+list)
+    cat /etc/caddy/trojan/passwd.txt
+;;
 *)
     echo "Command Examples:"
-    echo "./mytrojan add passwd1 passwd2 ..."
-    echo "./mytrojan del passwd1 passwd2 ..."
-    echo "./mytrojan status passwd1 passwd2 ..."
-    echo "./mytrojan list"
+    echo "./mytrojan.sh add passwd1 passwd2 ..."
+    echo "./mytrojan.sh del passwd1 passwd2 ..."
+    echo "./mytrojan.sh status passwd1 passwd2 ..."
+    echo "./mytrojan.sh rotate"
+    echo "./mytrojan.sh list"
 ;;
 esac
