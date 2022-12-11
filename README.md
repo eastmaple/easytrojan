@@ -55,6 +55,10 @@ bash mytrojan.sh del password1 password2 ...
 # 流量查询
 bash mytrojan.sh status password1 password2 ...
 
+# 流量归零
+bash mytrojan.sh rotate
+*流量统计归零后会自动在/etc/caddy/trojan/data目录下生成历史记录
+
 # 密码列表
 bash mytrojan.sh list
 ```
