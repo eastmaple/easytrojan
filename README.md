@@ -1,5 +1,5 @@
 ![language](https://img.shields.io/badge/language-Shell_&_Go-brightgreen.svg)
-![release](https://img.shields.io/badge/release-v2.0_20221208-blue.svg)
+![release](https://img.shields.io/badge/release-v2.0_20221212-blue.svg)
 # EasyTrojan #
 
 #### 世界上最简单的Trojan部署脚本，仅需一行命令即可搭建一台代理服务器 ####
@@ -24,10 +24,10 @@ curl https://raw.githubusercontent.com/maplecool/easytrojan/main/easytrojan.sh -
 如果服务器开启了防火墙，应放行TCP443与80端口，如在云厂商的web管理页面有防火墙应同时放行TCP443与80端口
 ```
 # RHEL 7、8、9 (CentOS、RedHat、AlmaLinux、RockyLinux) 放行端口命令
-firewall-cmd --permanent --add-port=443/tcp && firewall-cmd --permanent --add-port=80/tcp && firewall-cmd --reload && iptables -F
+firewall-cmd --permanent --add-port=80/tcp --add-port=443/tcp && firewall-cmd --reload && iptables -F
 
 # Debian 9、10、11、Ubuntu 16、18、20、22 放行端口命令
-sudo ufw allow 443/tcp && sudo ufw allow 80/tcp && sudo iptables -F
+sudo ufw allow proto tcp from any to any port 80,443 && sudo iptables -F
 ```
 > 验证端口是否放行 (示例IP应修改为trojan服务器的IP)
 >
@@ -236,11 +236,11 @@ ALPN: h2/http1.1
 该项目经过多台服务器测试，以及与部分包含trojan协议的客户端开发者沟通，总结出了相对可靠的抗封锁方案，由于用户的客户端、网络环境差异很大，不保证部署后一定不封禁端口。
 
 > 样本服务器测试数据：
->- 2022年10月初，2台来自境内用户日常使用的Shadowsocks样本服务器相继被阻断IP
+>- 2022年10月初，2台来自境内用户日常使用的Non-TLS代理服务器相继被阻断IP
 >- 2022年10月初，2台样本服务器更换为trojan协议，客户端使用路由器连接，稳定运行
 >- 2022年10月上，多用户使用移动客户端连接其中1台trojan服务器，必定出现1天内被封端口现象
 >- 2022年10月上，排查原因，分析变量，调研多个被封样本，推测出三个最有可能的原因
->- 2022年10月中，逐条更换变量测试，最终确定是被封问题来自一个移动端不可描述的原因
+>- 2022年10月中，逐条更换变量测试，最终确定被封问题来自一个移动端不可描述的原因
 >- 2022年10月末，2台服务器在每日约10台设备连接、日流量消耗10~20G的情况下稳定运行
 >- 2022年10月末，新购1台封端口重灾区的服务器，并联系了10位使用trojan被封端口的用户，内测该部署方案
 >- 2022年11月初，样本服务器中，12台443端口正常，1台被封443端口，原因是客户端跳过了证书验证，更正后稳定运行
