@@ -21,7 +21,7 @@ curl https://raw.githubusercontent.com/maplecool/easytrojan/main/easytrojan.sh -
 ```
 
 #### 放行端口 ####
-如果服务器开启了防火墙，应放行TCP443与80端口，如在云厂商的web管理页面有防火墙应同时放行TCP443与80端口
+如果服务器开启了防火墙，应放行TCP80与443端口，如在云厂商的web管理页面有防火墙应同时放行TCP80与443端口
 ```
 # RHEL 7、8、9 (CentOS、RedHat、AlmaLinux、RockyLinux) 放行端口命令
 firewall-cmd --permanent --add-port=80/tcp --add-port=443/tcp && firewall-cmd --reload && iptables -F
@@ -35,7 +35,7 @@ sudo ufw allow proto tcp from any to any port 80,443 && sudo iptables -F
 > 如果自动跳转至https，页面显示Service Unavailable，说明端口已放行
 
 #### 密码管理 ####
-请将结尾的password更换为自己的密码，仅限字母、数字、下划线
+请将结尾的password更换为自己的密码，仅限字母、数字、下划线，非多密码管理用途无需使用
 ```
 # 下载trojan密码管理脚本
 curl https://raw.githubusercontent.com/maplecool/easytrojan/main/mytrojan.sh -o mytrojan.sh && chmod +x mytrojan.sh
