@@ -13,15 +13,15 @@
 
 - 常见客户端连接trojan示例
 >- Windows </br>
-> [配置示例](https://raw.githubusercontent.com/maplecool/easytrojan/client/v2rayn-trojan.png) | [V2rayN-Core](https://github.com/2dust/v2rayN/releases) 
+> [配置示例](https://raw.githubusercontent.com/eastmaple/easytrojan/client/v2rayn-trojan.png) | [V2rayN-Core](https://github.com/2dust/v2rayN/releases) 
 >- MacOS </br>
-> [配置示例](https://raw.githubusercontent.com/maplecool/easytrojan/client/v2rayu-trojan.png) | [V2rayU](https://github.com/yanue/V2rayU/releases) 
+> [配置示例](https://raw.githubusercontent.com/eastmaple/easytrojan/client/v2rayu-trojan.png) | [V2rayU](https://github.com/yanue/V2rayU/releases) 
 >- Android </br>
-> [配置示例](https://raw.githubusercontent.com/maplecool/easytrojan/client/v2rayng-trojan.png) | [V2rayNG](https://github.com/2dust/v2rayNG/releases) 
+> [配置示例](https://raw.githubusercontent.com/eastmaple/easytrojan/client/v2rayng-trojan.png) | [V2rayNG](https://github.com/2dust/v2rayNG/releases) 
 >- iOS </br>
-> [配置示例](https://raw.githubusercontent.com/maplecool/easytrojan/client/shadowrocket-trojan.png) | [Shadowrocket](https://apps.apple.com/us/app/shadowrocket/id932747118) | [AppStore海外代购](https://www.rocketgirls.space/product)
+> [配置示例](https://raw.githubusercontent.com/eastmaple/easytrojan/client/shadowrocket-trojan.png) | [Shadowrocket](https://apps.apple.com/us/app/shadowrocket/id932747118) | [AppStore海外代购](https://www.rocketgirls.space/product)
 
-- OpenWRT passwall [配置示例](https://raw.githubusercontent.com/maplecool/easytrojan/client/passwall-trojan.png)
+- OpenWRT passwall [配置示例](https://raw.githubusercontent.com/eastmaple/easytrojan/client/passwall-trojan.png)
 
 - Xray连接trojan部分示例
 ```
