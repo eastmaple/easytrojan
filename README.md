@@ -159,7 +159,7 @@ ALPN: h2/http1.1
 >- Windows </br>
 > [配置示例](https://testingcf.jsdelivr.net/gh/eastmaple/easytrojan@client/v2rayn-trojan.png) | [V2rayN-Core](https://github.com/2dust/v2rayN/releases) | [加速下载](https://ghproxy.com/https://github.com/2dust/v2rayN/releases/download/5.39/v2rayN-Core.zip) 
 >- MacOS </br>
-> [配置示例](https://testingcf.jsdelivr.net/gh/eastmaple/easytrojan@client/v2rayu-trojan.png) | [V2rayU](https://github.com/yanue/V2rayU/releases)  | [加速下载-64](https://ghproxy.com/https://github.com/yanue/V2rayU/releases/download/3.3.0/V2rayU-64.dmg) | [加速下载-arm](https://ghproxy.com/https://github.com/yanue/V2rayU/releases/download/3.3.0/V2rayU-arm64.dmg)
+> [配置示例](https://testingcf.jsdelivr.net/gh/eastmaple/easytrojan@client/v2rayu-trojan.png) | [V2rayU](https://github.com/yanue/V2rayU/releases)  | [加速下载-64](https://ghproxy.com/https://github.com/yanue/V2rayU/releases/download/v3.4.0-preview/V2rayU-64.dmg) | [加速下载-arm](https://ghproxy.com/https://github.com/yanue/V2rayU/releases/download/v3.4.0-preview/V2rayU-arm64.dmg)
 >- Android </br>
 > [配置示例](https://testingcf.jsdelivr.net/gh/eastmaple/easytrojan@client/v2rayng-trojan.png) | [V2rayNG](https://github.com/2dust/v2rayNG/releases) | [加速下载](https://ghproxy.com/https://github.com/2dust/v2rayNG/releases/download/1.7.38/v2rayNG_1.7.38.apk) 
 >- iOS </br>
