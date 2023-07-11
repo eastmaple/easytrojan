@@ -6,7 +6,7 @@
 
 - 该项目会自动提供trojan服务所需的免费域名与证书，无需购买、解析等繁琐操作
 
-- 支持RHEL 7、8、9 (CentOS、RedHat、AlmaLinux、RockyLinux)、Debian 9、10、11、Ubuntu 16、18、20、22
+- 支持RHEL 7、8、9 (CentOS、RedHat、AlmaLinux、RockyLinux)、Debian 9、10、11、12、Ubuntu 16、18、20、22
 
 - 技术原理不做解释，初衷只为解决个人用户与主机商家被阻断连接的问题，降低大量IP被阻断造成的各种后续影响
 
@@ -26,7 +26,7 @@ curl https://raw.githubusercontent.com/eastmaple/easytrojan/main/easytrojan.sh -
 # RHEL 7、8、9 (CentOS、RedHat、AlmaLinux、RockyLinux) 放行端口命令
 firewall-cmd --permanent --add-port=80/tcp --add-port=443/tcp && firewall-cmd --reload && iptables -F
 
-# Debian 9、10、11、Ubuntu 16、18、20、22 放行端口命令
+# Debian 9、10、11、12、Ubuntu 16、18、20、22 放行端口命令
 sudo ufw allow proto tcp from any to any port 80,443 && sudo iptables -F
 ```
 > 验证端口是否放行 (示例IP应修改为trojan服务器的IP)
