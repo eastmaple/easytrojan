@@ -157,11 +157,11 @@ ALPN: h2/http1.1
 
 - 常见客户端连接trojan示例
 >- Windows </br>
-> [配置示例](https://testingcf.jsdelivr.net/gh/eastmaple/easytrojan@client/v2rayn-trojan.png) | [V2rayN-Core](https://github.com/2dust/v2rayN/releases) | [加速下载](https://ghproxy.com/https://github.com/2dust/v2rayN/releases/download/5.39/v2rayN-Core.zip) 
+> [配置示例](https://testingcf.jsdelivr.net/gh/eastmaple/easytrojan@client/v2rayn-trojan.png) | [V2rayN-Core](https://github.com/2dust/v2rayN/releases) | [加速下载](https://ghproxy.com/https://github.com/2dust/v2rayN/releases/download/6.23/v2rayN-With-Core.zip) 
 >- MacOS </br>
-> [配置示例](https://testingcf.jsdelivr.net/gh/eastmaple/easytrojan@client/v2rayu-trojan.png) | [V2rayU](https://github.com/yanue/V2rayU/releases)  | [加速下载-64](https://ghproxy.com/https://github.com/yanue/V2rayU/releases/download/v3.4.0-preview/V2rayU-64.dmg) | [加速下载-arm](https://ghproxy.com/https://github.com/yanue/V2rayU/releases/download/v3.4.0-preview/V2rayU-arm64.dmg)
+> [配置示例](https://testingcf.jsdelivr.net/gh/eastmaple/easytrojan@client/v2rayu-trojan.png) | [V2rayU](https://github.com/yanue/V2rayU/releases)  | [加速下载-64](https://ghproxy.com/https://github.com/yanue/V2rayU/releases/download/v3.8.0/V2rayU-64.dmg) | [加速下载-arm](https://ghproxy.com/https://github.com/yanue/V2rayU/releases/download/v3.8.0/V2rayU-arm64.dmg)
 >- Android </br>
-> [配置示例](https://testingcf.jsdelivr.net/gh/eastmaple/easytrojan@client/v2rayng-trojan.png) | [V2rayNG](https://github.com/2dust/v2rayNG/releases) | [加速下载](https://ghproxy.com/https://github.com/2dust/v2rayNG/releases/download/1.7.38/v2rayNG_1.7.38.apk) 
+> [配置示例](https://testingcf.jsdelivr.net/gh/eastmaple/easytrojan@client/v2rayng-trojan.png) | [V2rayNG](https://github.com/2dust/v2rayNG/releases) | [加速下载](https://ghproxy.com/https://github.com/2dust/v2rayNG/releases/download/1.8.5/v2rayNG_1.8.5.apk) 
 >- iOS </br>
 > [配置示例](https://testingcf.jsdelivr.net/gh/eastmaple/easytrojan@client/shadowrocket-trojan.png) | [Shadowrocket](https://apps.apple.com/us/app/shadowrocket/id932747118) | [AppStore海外代购](https://www.rocketgirls.space/product)
 
